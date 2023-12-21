@@ -2,12 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug (Local OpenOCD)",
+            "name": "(gdb) Attach / stlink",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/build/debug/lv_stm32f769.elf",
-            "request": "launch",
+            "preLaunchTask": "${command:cmake.build}",
+            "executable": "${workspaceRoot}/build/lv_stm32f769.elf",
+            "request": "attach",
             "type": "cortex-debug",
-            "showDevDebugOutput": false,
+            "showDevDebugOutput": "parsed",
             "svdFile": "${workspaceRoot}/.vscode/STM32F769.svd",
             "servertype": "openocd",
             "searchDir": [
@@ -16,20 +17,39 @@
             "configFiles": [
                 "interface/stlink.cfg",
                 "target/stm32f7x.cfg"
+            ]
+        },
+        {
+            "name": "(gdb) Launch / stlink",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/build/lv_stm32f769.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "svdFile": "${workspaceRoot}/.vscode/STM32F769.svd",
+            "servertype": "openocd",
+            "showDevDebugOutput": "vscode",
+            "searchDir": [
+                "/usr/share/openocd/scripts/",
             ],
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32f7x.cfg"
+            ],
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "preLaunchTask": "CMake: build"
         },
         {
             "name": "Debug (Local JLink)",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/build/debug/lv_stm32f769.elf",
+            "executable": "${workspaceRoot}/build/lv_stm32f769.elf",
             "request": "launch",
             "type": "cortex-debug",
-            "showDevDebugOutput": false,
+            "showDevDebugOutput": "parsed",
             "svdFile": "${workspaceRoot}/.vscode/STM32F769.svd",
             "servertype": "jlink",
             "interface": "swd",
             "device": "STM32F769NI",
-            "runToMain": true,
-          }
+            "runToEntryPoint": "main"
+        }
     ]
 }

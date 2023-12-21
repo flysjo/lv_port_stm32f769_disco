@@ -1,0 +1,37 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+    "name": "ARM/STM32",
+    "build": {
+        "args": {
+            "USERNAME": "${localEnv:USER}"
+        },
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+            },
+            "extensions": [
+                "ms-vscode.cpptools",
+                "marus25.cortex-debug",
+                "ms-vscode.cmake-tools",
+                "ms-vscode.cpptools-extension-pack",
+            ]
+        }
+    },
+    "remoteUser": "${localEnv:USER}",
+    "updateRemoteUserUID": true,
+    "mounts": [
+        "source=/etc/timezone,target=/etc/timezone,type=bind,consistency=ro",
+        "source=/etc/localtime,target=/etc/localtime,type=bind,consistency=ro",
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/user/.gitconfig,type=bind,consistency=cached",
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/user/.ssh,type=bind,consistency=cached"
+    ],
+    "runArgs": [
+        "--privileged",
+        "-e",
+        "DISPLAY=${env:DISPLAY}"
+    ]
+}
